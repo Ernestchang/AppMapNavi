@@ -1,18 +1,15 @@
 package guo.appmapnavi;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
 import java.io.File;
 import java.net.URISyntaxException;
 
-import static android.R.attr.mode;
-import static android.R.attr.scheme;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
 
@@ -22,7 +19,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final double LATITUDE_B = 28.187519;  //终点纬度
     private static final double LONGTITUDE_B = 113.029713;  //终点经度
-
 
 
     //----------------以下都是百度坐标系的坐标------------------//
@@ -47,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bt1:
 
                 setUpGaodeAppByLoca();
@@ -91,14 +87,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 确定起终点坐标BY高德
      */
-    void setUpGaodeAppByLoca(){
+    void setUpGaodeAppByLoca() {
         try {
-            Intent intent = Intent.getIntent("androidamap://route?sourceApplication=softname&slat="+LATITUDE_A+"&slon="+LONGTITUDE_A+"&sname="+"万家丽国际Mall"+"&dlat="+LATITUDE_B+"&dlon="+LONGTITUDE_B+"&dname="+"东郡华城广场|A座"+"&dev=0&m=0&t=1");
-            if(isInstallByread("com.autonavi.minimap")){
+            Intent intent = Intent.getIntent("androidamap://route?sourceApplication=softname&slat=" + LATITUDE_A + "&slon=" + LONGTITUDE_A + "&sname=" + "万家丽国际Mall" + "&dlat=" + LATITUDE_B + "&dlon=" + LONGTITUDE_B + "&dname=" + "东郡华城广场|A座" + "&dev=0&t=0");
+            if (isInstallByread("com.autonavi.minimap")) {
                 startActivity(intent);
-                Log.e(TAG, "高德地图客户端已经安装") ;
-            }else {
-                Log.e(TAG, "没有安装高德地图客户端") ;
+                Log.e(TAG, "高德地图客户端已经安装");
+            } else {
+                Log.e(TAG, "没有安装高德地图客户端");
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -109,14 +105,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 确认起终点名称BY高德
      */
-    void setUpGaodeAppByName(){
+    void setUpGaodeAppByName() {
         try {
-            Intent intent = Intent.getIntent("androidamap://route?sourceApplication=softname"+"&sname="+"万家丽国际Mall"+"&dname="+"东郡华城广场|A座"+"&dev=0&m=0&t=1");
-            if(isInstallByread("com.autonavi.minimap")){
+            Intent intent = Intent.getIntent("androidamap://route?sourceApplication=softname" + "&sname=" + "万家丽国际Mall" + "&dname=" + "东郡华城广场|A座" + "&dev=0&t=0");
+            if (isInstallByread("com.autonavi.minimap")) {
                 startActivity(intent);
-                Log.e(TAG, "高德地图客户端已经安装") ;
-            }else {
-                Log.e(TAG, "没有安装高德地图客户端") ;
+                Log.e(TAG, "高德地图客户端已经安装");
+            } else {
+                Log.e(TAG, "没有安装高德地图客户端");
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -127,32 +123,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 我的位置BY高德
      */
-    void setUpGaodeAppByMine(){
-        try {
-             Intent intent = Intent.getIntent("androidamap://route?sourceApplication=softname&sname=我的位置&dlat="+LATITUDE_B+"&dlon="+LONGTITUDE_B+"&dname="+"东郡华城广场|A座"+"&dev=0&m=0&t=1");
-            if(isInstallByread("com.autonavi.minimap")){
+    void setUpGaodeAppByMine() {
+//        try {
+        Intent intent = parseIntent("androidamap://route?sourceApplication=softname&sname=我的位置&dlat=" + LATITUDE_B + "&dlon=" + LONGTITUDE_B + "&dname=" + "东郡华城广场|A座" + "&dev=0&git t=0");
+        if (isInstallByread("com.autonavi.minimap")) {
+            if (intent != null) {
                 startActivity(intent);
-                Log.e(TAG, "高德地图客户端已经安装") ;
-            }else {
-                Log.e(TAG, "没有安装高德地图客户端") ;
             }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+            Log.e(TAG, "高德地图客户端已经安装");
+        } else {
+            Log.e(TAG, "没有安装高德地图客户端");
         }
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
     }
 
 
     /**
      * 注意下面的起终点坐标都是百度坐标，如果使用高德坐标系有很大的误差
      */
-    void setUpBaiduAPPByLoca(){
+    void setUpBaiduAPPByLoca() {
         try {
-            Intent intent = Intent.getIntent("intent://map/direction?origin=latlng:"+LATITUDE_QIDIAN+","+LONGTITUDE_QIDIAN+"|name:万家丽国际Mall&destination=latlng:"+LATITUDE_ZHONGDIAN+","+LONGTITUDE_ZHONGDIAN+"|name:东郡华城广场|A座&mode=driving&src=yourCompanyName|yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
-            if(isInstallByread("com.baidu.BaiduMap")){
+            Intent intent = Intent.getIntent("intent://map/direction?origin=latlng:" + LATITUDE_QIDIAN + "," + LONGTITUDE_QIDIAN + "|name:万家丽国际Mall&destination=latlng:" + LATITUDE_ZHONGDIAN + "," + LONGTITUDE_ZHONGDIAN + "|name:东郡华城广场|A座&mode=driving&src=yourCompanyName|yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
+            if (isInstallByread("com.baidu.BaiduMap")) {
                 startActivity(intent);
-                Log.e(TAG, "百度地图客户端已经安装") ;
-            }else {
-                Log.e(TAG, "没有安装百度地图客户端") ;
+                Log.e(TAG, "百度地图客户端已经安装");
+            } else {
+                Log.e(TAG, "没有安装百度地图客户端");
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -162,14 +160,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 通过起终点名字使用百度地图
      */
-    void setUpBaiduAPPByName(){
+    void setUpBaiduAPPByName() {
         try {
             Intent intent = Intent.getIntent("intent://map/direction?origin=万家丽国际Mall&destination=东郡华城广场|A座&mode=driving&src=yourCompanyName|yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
-            if(isInstallByread("com.baidu.BaiduMap")){
+            if (isInstallByread("com.baidu.BaiduMap")) {
                 startActivity(intent);
-                Log.e(TAG, "百度地图客户端已经安装") ;
-            }else {
-                Log.e(TAG, "没有安装百度地图客户端") ;
+                Log.e(TAG, "百度地图客户端已经安装");
+            } else {
+                Log.e(TAG, "没有安装百度地图客户端");
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -180,29 +178,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 我的位置到终点通过百度地图
      */
-    void setUpBaiduAPPByMine(){
-        try {
-            Intent intent = Intent.getIntent("intent://map/direction?origin=我的位置&destination=东郡华城广场|A座&mode=driving&src=yourCompanyName|yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
-            if(isInstallByread("com.baidu.BaiduMap")){
-                startActivity(intent);
-                Log.e(TAG, "百度地图客户端已经安装") ;
-            }else {
-                Log.e(TAG, "没有安装百度地图客户端") ;
-            }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+    void setUpBaiduAPPByMine() {
+//        try {
+        Intent intent = parseIntent("intent://map/direction?origin=我的位置&destination=东郡华城广场|A座&mode=driving&src=yourCompanyName|yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
+        if (isInstallByread("com.baidu.BaiduMap")) {
+            startActivity(intent);
+            Log.e(TAG, "百度地图客户端已经安装");
+        } else {
+            Log.e(TAG, "没有安装百度地图客户端");
         }
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
     }
-
 
 
     /**
      * 判断是否安装目标应用
+     *
      * @param packageName 目标应用安装后的包名
      * @return 是否已安装目标应用
      */
     private boolean isInstallByread(String packageName) {
         return new File("/data/data/" + packageName).exists();
+    }
+
+
+    /**
+     * getIntent已过时，getIntentOld高德地图有问题，故而有此方法
+     *
+     * @param url
+     * @return
+     */
+    public static Intent parseIntent(String url) {
+        Intent intent = null;
+        // Parse intent URI into Intent Object
+        int flags = 0;
+        if (url.startsWith("intent:")) {
+            flags = Intent.URI_INTENT_SCHEME;
+        } else if (url.startsWith("#Intent;")) {
+        }
+        try {
+            intent = Intent.parseUri(url, flags);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return intent;
     }
 
 }
